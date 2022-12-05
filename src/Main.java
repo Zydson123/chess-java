@@ -77,6 +77,8 @@ public class Main {
 
     }
     public static void main(String[] args) {
+        //white - true
+        //black - false
         boolean whoseTurn = true;
         Piece[][] board = new Piece[8][8];
         fill_board(board);
