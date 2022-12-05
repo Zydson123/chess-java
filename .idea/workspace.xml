@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd7d5c18-5ff3-47ab-9f4a-55a3f37b007a" name="Changes" comment="chess, only moving pawns work but didnt figure out blocking yet">
+    <list default="true" id="cd7d5c18-5ff3-47ab-9f4a-55a3f37b007a" name="Changes" comment="chess, pawns can now block each other and take other pieces :D">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670266409358</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="chess, pawns can now block each other and take other pieces :D">
+      <created>1670268024120</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1670268024120</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -68,6 +74,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chess, only moving pawns work but didnt figure out blocking yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="chess, only moving pawns work but didnt figure out blocking yet" />
+    <MESSAGE value="chess, pawns can now block each other and take other pieces :D" />
+    <option name="LAST_COMMIT_MESSAGE" value="chess, pawns can now block each other and take other pieces :D" />
   </component>
 </project>
