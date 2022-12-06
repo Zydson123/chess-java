@@ -25,17 +25,16 @@ public class Piece {
             System.out.println(posYofMove);
             System.out.println(piece.getPosX());
             //System.out.println(board[piece.getPosY()][posYofMove].getType());
+            //pies
             System.out.println(board[posYofMove][piece.getPosY()].getType());
-            if(piece.getPosX()==6 && 6-posYofMove==2 && piece.getPosY()==posXofMove && board[posYofMove][piece.getPosY()].getType()=='l'){
+            System.out.println(board[posYofMove][posXofMove].getType());
+            if(piece.getPosX()==6 && 6-posYofMove==2 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
-            else if(piece.getPosX()-posYofMove==1 && piece.getPosY()==posXofMove && board[posYofMove][piece.getPosY()].getType()=='l'){
+            else if(piece.getPosX()-posYofMove==1 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
-            else if(piece.getPosX()-posYofMove==1 && board[piece.getPosX()+1][posYofMove].getType()!='l' && board[piece.getPosX()+1][posYofMove].getColor()!=piece.getColor()){
-                isLegal = true;
-            }
-            else if(piece.getPosX()-posYofMove==1 && board[piece.getPosX()-1][posYofMove].getType()!='l' && board[piece.getPosX()+1][posYofMove].getColor()!=piece.getColor()){
+            else if(piece.getPosX()-posYofMove==1 && board[posYofMove][posXofMove].getType()!='l' && posXofMove!=piece.getPosY() && board[posYofMove][posXofMove].getColor()!=piece.getColor()){
                 isLegal = true;
             }
             else{
@@ -49,16 +48,14 @@ public class Piece {
             System.out.println(piece.getPosX());
             //System.out.println(board[piece.getPosY()][posYofMove].getType());
             System.out.println(board[posYofMove][piece.getPosY()].getType());
-            if(piece.getPosX()==1 && piece.getPosX()+posYofMove==4 && piece.getPosY()==posXofMove && board[posYofMove][piece.getPosY()].getType()=='l'){
+            System.out.println(board[posYofMove][posXofMove].getType());
+            if(piece.getPosX()==1 && piece.getPosX()+posYofMove==4 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
-            else if(posYofMove-piece.getPosX()==1 && piece.getPosY()==posXofMove && board[posYofMove][piece.getPosY()].getType()=='l'){
+            else if(posYofMove-piece.getPosX()==1 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
-            else if(posYofMove-piece.getPosX()==1 && board[piece.getPosX()+1][posYofMove].getType()!='l' && board[piece.getPosX()+1][posYofMove].getColor()!=piece.getColor()){
-                isLegal = true;
-            }
-            else if(posYofMove-piece.getPosX()==1 && board[piece.getPosX()-1][posYofMove].getType()!='l' && board[piece.getPosX()+1][posYofMove].getColor()!=piece.getColor()){
+            else if(posYofMove-piece.getPosX()==1 && board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor()){
                 isLegal = true;
             }
             else{
@@ -84,9 +81,9 @@ public class Piece {
             }
         }
         else{
-                System.out.println("Its not your turn!");
-            }
+            System.out.println("Its not your turn!");
         }
+    }
     public char getType() {
         return type;
     }

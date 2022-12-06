@@ -51,7 +51,7 @@ public class Main {
     public static void add_pieces(Piece board[][]){
         //white pieces
         board[7][7] = new Piece('R',true,7,7,false);
-        board[7][0] = new Piece('R',true,0,7,false);
+        board[7][0] = new Piece('R',true,7,0,false);
         board[7][3] = new Piece('Q',true,7,3,false);
         board[7][4] = new Piece('K',true,7,3,false);
         board[7][1] = new Piece('N',true,7,1,false);
@@ -83,6 +83,7 @@ public class Main {
         Piece[][] board = new Piece[8][8];
         fill_board(board);
         add_pieces(board);
+        //pies
         System.out.println("(white - true, black - false)");
         System.out.println("Its the turn of: " + whoseTurn);
         print_board(board);
