@@ -71,11 +71,35 @@ public class Piece {
                 isLegal=false;
             }
         }
+        else if(piece.getType()=='N' && piece.getColor()==true){
+            System.out.println(piece.getPosY()); //X
+            System.out.println(piece.getPosX()); //Y
+            //for some reasone X and Y ^^ are inverted here, god knows why
+            System.out.println(posXofMove); //X of where you want to go
+            System.out.println(posYofMove); //Y of where you want to go
+            System.out.println(board[posYofMove][posXofMove].getType()); //the type of piece on the place you want to go
+
+            //if its filler and goes forward
+            if(board[posYofMove][posXofMove].getType()=='l' && piece.getPosX()-posYofMove==2 && posXofMove-piece.getPosY()==1){
+                isLegal=true;
+            }
+            //if its filler and goes backwards
+            else if(board[posYofMove][posXofMove].getType()=='l' && piece.getPosY()-posXofMove==1 && posYofMove-piece.getPosX()==2){
+                isLegal=true;
+            }
+            //if takes and forward
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && piece.getPosX()-posYofMove==2 && posXofMove-piece.getPosY()==1){
+                isLegal=true;
+            }
+            //if takes and backwards
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && piece.getPosY()-posXofMove==1 && posYofMove-piece.getPosX()==2){
+                isLegal=true;
+            }
+        }
         return isLegal;
     }
     public void move_piece(Piece piece, int posXofMove,int posYofMove, boolean whoseTurn, Piece board[][]){
         if(piece.getColor()==whoseTurn) {
-            if (piece.getType() == 'P') {
                 if (board[posXofMove][posYofMove].check_legal(piece,board,posXofMove,posYofMove)) {
                     //System.out.println("You can go there!");
                     board[piece.getPosX()][piece.getPosY()]= new Piece('l',false,piece.getPosX(),piece.getPosY(),true);
@@ -87,7 +111,6 @@ public class Piece {
                     System.out.println("You cant go to:" + posXofMove + "," + posYofMove + " with: " + piece.getType());
 
                 }
-            }
         }
         else{
             System.out.println("Its not your turn!");
