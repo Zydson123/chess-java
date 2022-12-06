@@ -7,6 +7,7 @@ public class Piece {
     private int id;
     private boolean isFiller;
     private boolean didMove;
+    private Piece lastTaken;
 
     public Piece(char type, boolean color, int posX, int posY, boolean isFiller) {
         this.id++;
@@ -28,14 +29,18 @@ public class Piece {
             //pies
             System.out.println(board[posYofMove][piece.getPosY()].getType());
             System.out.println(board[posYofMove][posXofMove].getType());
+            //go forward by two
             if(piece.getPosX()==6 && 6-posYofMove==2 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
+            //go forward by one
             else if(piece.getPosX()-posYofMove==1 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
+            //takes
             else if(piece.getPosX()-posYofMove==1 && board[posYofMove][posXofMove].getType()!='l' && posXofMove!=piece.getPosY() && board[posYofMove][posXofMove].getColor()!=piece.getColor()){
                 isLegal = true;
+                lastTaken = board[posYofMove][posXofMove];
             }
             else{
                 isLegal=false;
@@ -49,14 +54,18 @@ public class Piece {
             //System.out.println(board[piece.getPosY()][posYofMove].getType());
             System.out.println(board[posYofMove][piece.getPosY()].getType());
             System.out.println(board[posYofMove][posXofMove].getType());
+            //go forward by two
             if(piece.getPosX()==1 && piece.getPosX()+posYofMove==4 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
+            //go forward by one
             else if(posYofMove-piece.getPosX()==1 && piece.getPosY()==posXofMove && board[posYofMove][posXofMove].getType()=='l'){
                 isLegal = true;
             }
+            //takes
             else if(posYofMove-piece.getPosX()==1 && board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor()){
                 isLegal = true;
+                lastTaken = board[posYofMove][posXofMove];
             }
             else{
                 isLegal=false;
