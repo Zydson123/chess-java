@@ -8,6 +8,7 @@ public class Piece {
     private boolean isFiller;
     private boolean didMove;
     private Piece lastTaken;
+    private boolean isUsed;
 
     public Piece(char type, boolean color, int posX, int posY, boolean isFiller) {
         this.id++;
@@ -16,10 +17,11 @@ public class Piece {
         this.posX = posX;
         this.posY = posY;
         this.isFiller = isFiller;
-        this.didMove=true;
+        this.didMove=false;
     }
     public boolean check_legal(Piece piece, Piece board[][],int posXofMove,int posYofMove){
         boolean isLegal=false;
+        piece.setUsed(true);
         if(piece.getType()=='P' && piece.getColor()==true){
             System.out.println(piece.getPosY());
             System.out.println(posXofMove);
@@ -71,17 +73,54 @@ public class Piece {
                 isLegal=false;
             }
         }
-        else if(piece.getType()=='N' && piece.getColor()==true){
-            System.out.println(piece.getPosY()); //X
-            System.out.println(piece.getPosX()); //Y
+        else if(piece.getType()=='N'){
+            System.out.println("X of piece: " + piece.getPosY()); //X
+            System.out.println("Y of piece: " + piece.getPosX()); //Y
             //for some reason X and Y ^^ are inverted here, god knows why
-            System.out.println(posXofMove); //X of where you want to go
-            System.out.println(posYofMove); //Y of where you want to go
+            System.out.println("pos x of move: " + posXofMove); //X of where you want to go
+            System.out.println("pos y of move: " + posYofMove); //Y of where you want to go
+            System.out.println(posXofMove-piece.getPosY());
+            System.out.println(piece.getPosX()-posYofMove);
             System.out.println(board[posYofMove][posXofMove].getType()); //the type of piece on the place you want to go
-
             //if its filler and goes forward and is on the right side of the board
             if(board[posYofMove][posXofMove].getType()=='l' && piece.getPosX()-posYofMove==2 && piece.getPosY()-posXofMove==1){
                 isLegal=true;
+            }
+            //if its filler and goes right
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove-piece.getPosY()==2 && piece.getPosX()-posYofMove==1){
+                isLegal=true;
+            }
+            //if its filler and goes left
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove-piece.getPosY()==-2 && piece.getPosX()-posYofMove==1){
+                isLegal=true;
+            }
+            //if its filler and goes right back
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove-piece.getPosY()==2 && piece.getPosX()-posYofMove==-1){
+                isLegal=true;
+            }
+            //if takes and goes right back
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && posXofMove-piece.getPosY()==2 && piece.getPosX()-posYofMove==-1){
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
+            }
+            //if its filler and goes left back
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove-piece.getPosY()==-2 && piece.getPosX()-posYofMove==-1){
+                isLegal=true;
+            }
+            //if takes and goes left back
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && posXofMove-piece.getPosY()==-2 && piece.getPosX()-posYofMove==-1){
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
+            }
+            //if takes and goes left
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && posXofMove-piece.getPosY()==-2 && piece.getPosX()-posYofMove==1){
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
+            }
+            //if takes and goes right
+            else if(board[posYofMove][posXofMove].getType()!='l' && board[posYofMove][posXofMove].getColor()!=piece.getColor() && posXofMove-piece.getPosY()==2 && piece.getPosX()-posYofMove==1){
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
             }
             //if its filler and goes forward and is on the left side of the board
             else if(board[posYofMove][posXofMove].getType()=='l' && piece.getPosX()-posYofMove==2 && posXofMove-piece.getPosY()==1){
@@ -116,6 +155,138 @@ public class Piece {
                 lastTaken = board[posYofMove][posXofMove];
             }
         }
+        else if(piece.getType()=='R'){
+            int FbX = 0;
+            int FbY = 0;
+            int FbX2 = 0;
+            int FbY2 = 0;
+            int i = 0;
+            int j=0;
+
+            while(j!=8){
+                /*System.out.println("X of checking: " + j);
+                System.out.println("Y of checking: " + piece.getPosY());*/
+                if(board[j][piece.getPosY()].getColor()==piece.getColor() && !board[j][piece.getPosY()].isUsed()){
+                    FbX = j;
+                    FbY = piece.getPosY();
+                    break;
+                }
+                j++;
+            }
+            System.out.println("blockade for y axis:");
+            while(i!=8){
+                /*System.out.println("i: " + i);
+                System.out.println("Y of checking: " + piece.getPosX());*/
+                if(board[piece.getPosX()][i].getColor()==piece.getColor() && !board[piece.getPosX()][i].isUsed()){
+                    FbX2 = piece.getPosX();
+                    FbY2 = i;
+                    break;
+                }
+                i++;
+            }
+            i=0;
+            j=0;
+            Piece XblockadeFriendly = board[FbX][FbY];
+            Piece YblockadeFriendly = board[FbX2][FbY2];
+
+            System.out.println("X of piece: " + piece.getPosY()); //X
+            System.out.println("Y of piece: " + piece.getPosX()); //Y
+            //for some reason X and Y ^^ are inverted here, god knows why
+            System.out.println("pos x of move: " + posXofMove); //X of where you want to go
+            System.out.println("pos y of move: " + posYofMove); //Y of where you want to go
+
+            System.out.println("The friendly blockade of the X axis is: " + XblockadeFriendly);
+            System.out.println("The friendly blockade of the Y axis is: " + YblockadeFriendly);
+            System.out.println("X of X axis blockade: " + XblockadeFriendly.getPosY());
+            System.out.println("Y of X axis blockade: " + XblockadeFriendly.getPosX());
+            System.out.println("less than 0 is left more than 0 is right ");
+            System.out.println(posXofMove-piece.getPosY());
+            System.out.println("less than 0 is down more than 0 is up");
+            System.out.println(piece.getPosX()-posYofMove);
+            System.out.println(board[posYofMove][posXofMove].getType()); //the type of piece on the place you want to go
+            //System.out.println("blockade for x axis:");
+
+            //if goes up and there is blockade
+            if(
+                    board[posYofMove][posXofMove].getType()=='l'
+                    && posXofMove == piece.getPosY()
+                    && posYofMove != piece.getPosX()
+                    && piece.getPosX() - posYofMove > 0
+                    && posYofMove - XblockadeFriendly.getPosX() < 0
+                    && XblockadeFriendly.getPosX() < piece.getPosX()
+                    && XblockadeFriendly.getColor() == piece.getColor()
+            )
+            {
+                System.out.println("pies");
+                isLegal=false;
+            }
+            //if goes down but there is blockade
+            else if(
+                    board[posYofMove][posXofMove].getType()=='l'
+                            && posXofMove == piece.getPosY()
+                            && posYofMove != piece.getPosX()
+                            && piece.getPosX() - posYofMove < 0
+                            && posYofMove - XblockadeFriendly.getPosX() > 0
+                            && XblockadeFriendly.getPosX() > piece.getPosX()
+            )
+            {
+                System.out.println("pies1");
+                isLegal=false;
+            }
+            //if goes right and there is blockade
+            else if(
+                    board[posYofMove][posXofMove].getType()=='l'
+                            && posXofMove != piece.getPosY()
+                            && posYofMove == piece.getPosX()
+                            && posXofMove - piece.getPosY() > 0
+                            && posYofMove - XblockadeFriendly.getPosX() > 0
+                            && XblockadeFriendly.getPosX() < piece.getPosX()
+                            && piece.getPosX()-posYofMove != 0
+            )
+            {
+                System.out.println("pies2");
+                isLegal=false;
+            }
+            //if goes left and there is blockade
+            else if(
+                    board[posYofMove][posXofMove].getType()=='l'
+                            && posXofMove != piece.getPosY()
+                            && posYofMove == piece.getPosX()
+                            && posXofMove - piece.getPosY() < 0
+                            && posYofMove - XblockadeFriendly.getPosX() < 0
+                            && XblockadeFriendly.getPosX() > piece.getPosX()
+                            && XblockadeFriendly.getColor() == piece.getColor()
+            )
+            {
+                System.out.println("pies3");
+                isLegal=false;
+            }
+            //if goes sideways and is filler and no blockade
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove != piece.getPosY() && posYofMove == piece.getPosX()){
+                isLegal=true;
+            }
+            //if goes up/down and is filler and no blockade
+            else if(board[posYofMove][posXofMove].getType()=='l' && posXofMove == piece.getPosY() && posYofMove != piece.getPosX()){
+                isLegal=true;
+            }
+            //if goes sideways and takes and no blockade
+            else if(board[posYofMove][posXofMove].getType()!='l'
+                    && board[posYofMove][posXofMove].getColor()!=piece.getColor()
+                    && posXofMove != piece.getPosY() && posYofMove == piece.getPosX())
+            {
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
+            }
+            //if goes up/down and takes and no blockade
+            else if(board[posYofMove][posXofMove].getType()!='l'
+                    && board[posYofMove][posXofMove].getColor()!=piece.getColor()
+                    && posXofMove == piece.getPosY() && posYofMove != piece.getPosX())
+            {
+                isLegal=true;
+                lastTaken = board[posYofMove][posXofMove];
+            }
+        }
+        piece.setUsed(false);
         return isLegal;
     }
     public void move_piece(Piece piece, int posXofMove,int posYofMove, boolean whoseTurn, Piece board[][]){
@@ -136,6 +307,15 @@ public class Piece {
             System.out.println("Its not your turn!");
         }
     }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
+
     public char getType() {
         return type;
     }
