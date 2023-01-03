@@ -265,6 +265,7 @@ public class Piece {
                             && posYofMove - YblockadeFriendly.getPosX() == 0
                             && YblockadeFriendly.getPosX() == piece.getPosX()
                             && posXofMove - YblockadeFriendly.getPosY() > 0
+                            && piece.getPosY() - YblockadeFriendly.getPosY() < 0
                             && this.blockades2.size()!=0
             )
             {
