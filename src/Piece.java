@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Piece {
     private char type;
     private boolean color;
@@ -9,6 +11,8 @@ public class Piece {
     private boolean didMove;
     private Piece lastTaken;
     private boolean isUsed;
+    private ArrayList<Piece> blockades = new ArrayList<Piece>();
+    private ArrayList<Piece> blockades2 = new ArrayList<Piece>();
 
     public Piece(char type, boolean color, int posX, int posY, boolean isFiller) {
         this.id++;
@@ -166,10 +170,10 @@ public class Piece {
             while(j!=8){
                 /*System.out.println("X of checking: " + j);
                 System.out.println("Y of checking: " + piece.getPosY());*/
-                if(board[j][piece.getPosY()].getColor()==piece.getColor() && !board[j][piece.getPosY()].isUsed()){
+                if(!board[j][piece.getPosY()].isUsed() && board[j][piece.getPosY()].getType()!='l'){
+                    this.blockades.add(board[j][piece.getPosY()]);
                     FbX = j;
                     FbY = piece.getPosY();
-                    break;
                 }
                 j++;
             }
@@ -177,17 +181,35 @@ public class Piece {
             while(i!=8){
                 /*System.out.println("i: " + i);
                 System.out.println("Y of checking: " + piece.getPosX());*/
-                if(board[piece.getPosX()][i].getColor()==piece.getColor() && !board[piece.getPosX()][i].isUsed()){
+                if(!board[piece.getPosX()][i].isUsed() && board[piece.getPosX()][i].getType()!='l'){
+                    this.blockades2.add(board[piece.getPosX()][i]);
                     FbX2 = piece.getPosX();
                     FbY2 = i;
-                    break;
                 }
                 i++;
             }
             i=0;
             j=0;
-            Piece XblockadeFriendly = board[FbX][FbY];
-            Piece YblockadeFriendly = board[FbX2][FbY2];
+            Piece XblockadeFriendly = board[0][0];
+            Piece YblockadeFriendly = board[0][0];
+            if(this.blockades.size()==0){
+
+            }
+            else if(this.blockades.size()==1){
+                XblockadeFriendly = this.blockades.get(0);
+            }
+            else{
+                XblockadeFriendly = this.blockades.get(this.blockades.size()-1);
+            }
+            if(this.blockades2.size()==0){
+
+            }
+            else if(this.blockades2.size()==1){
+                YblockadeFriendly = this.blockades2.get(0);
+            }
+            else{
+                YblockadeFriendly = this.blockades2.get(this.blockades2.size()-1);
+            }
 
             System.out.println("X of piece: " + piece.getPosY()); //X
             System.out.println("Y of piece: " + piece.getPosX()); //Y
@@ -197,8 +219,10 @@ public class Piece {
 
             System.out.println("The friendly blockade of the X axis is: " + XblockadeFriendly);
             System.out.println("The friendly blockade of the Y axis is: " + YblockadeFriendly);
-            System.out.println("X of X axis blockade: " + XblockadeFriendly.getPosY());
-            System.out.println("Y of X axis blockade: " + XblockadeFriendly.getPosX());
+            System.out.println("X of up/down blockade: " + XblockadeFriendly.getPosY());
+            System.out.println("Y of up/down blockade: " + XblockadeFriendly.getPosX());
+            System.out.println("X of right/left blockade: " + YblockadeFriendly.getPosY());
+            System.out.println("Y of right/left blockade: " + YblockadeFriendly.getPosX());
             System.out.println("less than 0 is left more than 0 is right ");
             System.out.println(posXofMove-piece.getPosY());
             System.out.println("less than 0 is down more than 0 is up");
@@ -214,7 +238,6 @@ public class Piece {
                     && piece.getPosX() - posYofMove > 0
                     && posYofMove - XblockadeFriendly.getPosX() < 0
                     && XblockadeFriendly.getPosX() < piece.getPosX()
-                    && XblockadeFriendly.getColor() == piece.getColor()
             )
             {
                 System.out.println("pies");
@@ -239,9 +262,10 @@ public class Piece {
                             && posXofMove != piece.getPosY()
                             && posYofMove == piece.getPosX()
                             && posXofMove - piece.getPosY() > 0
-                            && posYofMove - XblockadeFriendly.getPosX() > 0
-                            && XblockadeFriendly.getPosX() < piece.getPosX()
-                            && piece.getPosX()-posYofMove != 0
+                            && posYofMove - YblockadeFriendly.getPosX() == 0
+                            && YblockadeFriendly.getPosX() == piece.getPosX()
+                            && posXofMove - YblockadeFriendly.getPosY() > 0
+                            && this.blockades2.size()!=0
             )
             {
                 System.out.println("pies2");
@@ -253,9 +277,10 @@ public class Piece {
                             && posXofMove != piece.getPosY()
                             && posYofMove == piece.getPosX()
                             && posXofMove - piece.getPosY() < 0
-                            && posYofMove - XblockadeFriendly.getPosX() < 0
-                            && XblockadeFriendly.getPosX() > piece.getPosX()
-                            && XblockadeFriendly.getColor() == piece.getColor()
+                            && posYofMove - YblockadeFriendly.getPosX() == 0
+                            && YblockadeFriendly.getPosX() == piece.getPosX()
+                            && posXofMove - YblockadeFriendly.getPosY() < 0
+                            && this.blockades2.size()!=0
             )
             {
                 System.out.println("pies3");
@@ -278,9 +303,11 @@ public class Piece {
                 lastTaken = board[posYofMove][posXofMove];
             }
             //if goes up/down and takes and no blockade
-            else if(board[posYofMove][posXofMove].getType()!='l'
+            else if(
+                    board[posYofMove][posXofMove].getType()!='l'
                     && board[posYofMove][posXofMove].getColor()!=piece.getColor()
-                    && posXofMove == piece.getPosY() && posYofMove != piece.getPosX())
+                    && posXofMove == piece.getPosY()
+                    && posYofMove != piece.getPosX())
             {
                 isLegal=true;
                 lastTaken = board[posYofMove][posXofMove];
