@@ -20,40 +20,12 @@ public class Main {
             System.out.println();
         }
     }
-    /*public int convertXCharToInt(char posX){
-        int posXint=0;
-        if(posX=='A'){
-            posXint=0;
-        }
-        else if(posX=='B'){
-            posXint=1;
-        }
-        else if(posX=='C'){
-            posXint=2;
-        }
-        else if(posX=='D'){
-            posXint=3;
-        }
-        else if(posX=='E'){
-            posXint=4;
-        }
-        else if(posX=='F'){
-            posXint=5;
-        }
-        else if(posX=='G'){
-            posXint=6;
-        }
-        else if(posX=='H'){
-            posXint=7;
-        }
-        return posXint;
-    }*/
     public static void add_pieces(Piece board[][]){
         //white pieces
         board[7][7] = new Piece('R',true,7,7,false);
         board[7][0] = new Piece('R',true,7,0,false);
         board[7][3] = new Piece('Q',true,7,3,false);
-        board[7][4] = new Piece('K',true,7,3,false);
+        board[7][4] = new Piece('K',true,7,4,false);
         board[7][1] = new Piece('N',true,7,1,false);
         board[7][6] = new Piece('N',true,7,6,false);
         board[7][2] = new Piece('B',true,7,2,false);
@@ -79,16 +51,27 @@ public class Main {
     public static void main(String[] args) {
         //white - true
         //black - false
-        boolean whoseTurn = true;
+        boolean whoseTurn = false;
         Piece[][] board = new Piece[8][8];
         fill_board(board);
         add_pieces(board);
+        Piece LastTaken = board[0][0].lastTaken;
+        LastTaken = new Piece('l',false,0,0,true);
         //pies
         System.out.println("(white - true, black - false)");
         System.out.println("Its the turn of: " + whoseTurn);
         print_board(board);
         while (true){
-
+            if(LastTaken.getType()=='K'){
+                if(LastTaken.getColor()==true){
+                    System.out.println("Black won!");
+                    break;
+                }
+                else if(LastTaken.getColor()==false){
+                    System.out.println("White won!");
+                    break;
+                }
+            }
             System.out.println("Choose the X coordinates of your piece");
             Scanner input2 = new Scanner(System.in);
             int coordsX = input2.nextInt();
@@ -108,12 +91,14 @@ public class Main {
             Scanner input5 = new Scanner(System.in);
             coordsY = input5.nextInt();
             piece.move_piece(piece,coordsX-1,coordsY-1,whoseTurn,board);
+            /*
             if(whoseTurn==true){
                 whoseTurn=false;
             }
             else{
                 whoseTurn=true;
             }
+           */
             System.out.println("(white - true, black - false)");
             System.out.println("Its the turn of: " + whoseTurn);
             print_board(board);
