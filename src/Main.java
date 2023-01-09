@@ -14,7 +14,7 @@ public class Main {
         int i =0;
         int j = 0;
         System.out.println();
-        System.out.print("  1    2   3   4   5   6   7   8");
+        System.out.print("   1    2   3   4   5   6   7   8");
         System.out.println();
         for (i = 0; i < board.length; i++)
         {
