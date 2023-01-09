@@ -51,17 +51,17 @@ public class Main {
     public static void main(String[] args) {
         //white - true
         //black - false
-        boolean whoseTurn = false;
+        boolean whoseTurn = true;
         Piece[][] board = new Piece[8][8];
         fill_board(board);
         add_pieces(board);
-        Piece LastTaken = board[0][0].lastTaken;
-        LastTaken = new Piece('l',false,0,0,true);
         //pies
         System.out.println("(white - true, black - false)");
         System.out.println("Its the turn of: " + whoseTurn);
         print_board(board);
+        board[0][0].lastTaken = new Piece('l',false,0,0,true);
         while (true){
+            Piece LastTaken = board[0][0].lastTaken;
             if(LastTaken.getType()=='K'){
                 if(LastTaken.getColor()==true){
                     System.out.println("Black won!");
@@ -91,14 +91,14 @@ public class Main {
             Scanner input5 = new Scanner(System.in);
             coordsY = input5.nextInt();
             piece.move_piece(piece,coordsX-1,coordsY-1,whoseTurn,board);
-            /*
+
             if(whoseTurn==true){
                 whoseTurn=false;
             }
             else{
                 whoseTurn=true;
             }
-           */
+
             System.out.println("(white - true, black - false)");
             System.out.println("Its the turn of: " + whoseTurn);
             print_board(board);
