@@ -13,7 +13,6 @@ public class Main {
     public static void print_board(Piece board[][]){
         int i =0;
         int j = 0;
-        System.out.println();
         System.out.print("   1   2   3   4   5   6   7   8");
         System.out.println();
         for (i = 0; i < board.length; i++)
@@ -63,15 +62,15 @@ public class Main {
         fill_board(board);
         add_pieces(board);
         //pies
-        if(whoseTurn==true){
-            System.out.println("Its whites turn");
-        }
-        else{
-                System.out.println("Its blacks turn");
-        }
-        print_board(board);
         board[0][0].lastTaken = new Piece('l',false,0,0,true);
         while (true){
+            if(whoseTurn==true){
+                System.out.println("Its whites turn");
+            }
+            else{
+                System.out.println("Its blacks turn");
+            }
+            print_board(board);
             Piece LastTaken = board[0][0].lastTaken;
             if(LastTaken.getType()=='K'){
                 if(LastTaken.getColor()==true){
@@ -109,8 +108,6 @@ public class Main {
             else{
                 whoseTurn=true;
             }
-            print_board(board);
-
         }
     }
 }
