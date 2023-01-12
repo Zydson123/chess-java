@@ -63,8 +63,12 @@ public class Main {
         fill_board(board);
         add_pieces(board);
         //pies
-        System.out.println("(white - true, black - false)");
-        System.out.println("Its the turn of: " + whoseTurn);
+        if(whoseTurn==true){
+            System.out.println("Its whites turn");
+        }
+        else{
+                System.out.println("Its blacks turn");
+        }
         print_board(board);
         board[0][0].lastTaken = new Piece('l',false,0,0,true);
         while (true){
@@ -87,7 +91,7 @@ public class Main {
             Scanner input3 = new Scanner(System.in);
             int coordsY = input3.nextInt();
             Piece piece = board[coordsY-1][coordsX-1];
-            System.out.println(piece);
+            System.out.println(piece.getType());
             System.out.println(piece.getColor());
 
             System.out.println("Choose the X coordinates of your move");
@@ -105,9 +109,6 @@ public class Main {
             else{
                 whoseTurn=true;
             }
-
-            System.out.println("(white - true, black - false)");
-            System.out.println("Its the turn of: " + whoseTurn);
             print_board(board);
 
         }
